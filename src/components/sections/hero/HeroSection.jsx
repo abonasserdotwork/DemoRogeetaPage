@@ -23,45 +23,103 @@ function HeroSection() {
   const AvailabilityIcon = availability.icon;
   const CareIcon = care.icon;
 
+  const heroRef = useRef(null);
   const heroLeftElements = useRef(null);
   const heroRightElements = useRef(null);
   const buttonCard = useRef(null);
+
   const isLoaded = useContext(LoadingContext);
 
   useGSAP(
     () => {
-      const shapes = gsap.utils.toArray(".shape");
+      if (!isLoaded) return;
 
-      console.log("Shapes:", shapes.length);
+      const left = heroLeftElements.current;
+      const right = heroRightElements.current;
+      const card = buttonCard.current;
 
-      if (!shapes.length) return;
+      if (!left || !right) return;
 
-      shapes.forEach((shape) => {
-        gsap.to(shape, {
-          x: gsap.utils.random(-25, 25),
-          y: gsap.utils.random(-30, 30),
-          rotation: gsap.utils.random(-15, 15),
-          duration: gsap.utils.random(2, 4),
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-          repeatRefresh: true,
-        });
+      gsap.from(left.children, {
+        rotationY: -90,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: "back.out(1.4)",
+        transformOrigin: "50% 50% -20px",
       });
+
+      const shapes = right.querySelectorAll(".shape");
+
+      gsap.to(shapes, {
+        x: "random(-25, 25)",
+        y: "random(-30, 30)",
+        rotation: "random(-15, 15)",
+        duration: "random(2, 4)",
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+        repeatRefresh: true,
+        stagger: {
+          each: 0.2,
+          from: "random",
+        },
+      });
+
+      if (!card) return;
+
+      const handleMouseMove = (event) => {
+        const rect = card.getBoundingClientRect();
+
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        gsap.to(card, {
+          rotateY: x * 20,
+          rotateX: -y * 20,
+          duration: 0.3,
+          ease: "power2.out",
+          transformPerspective: 600,
+          overwrite: "auto",
+        });
+      };
+
+      const handleMouseLeave = () => {
+        gsap.to(card, {
+          rotateX: 0,
+          rotateY: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      };
+
+      card.addEventListener("mousemove", handleMouseMove);
+      card.addEventListener("mouseleave", handleMouseLeave);
+
+      return () => {
+        card.removeEventListener("mousemove", handleMouseMove);
+        card.removeEventListener("mouseleave", handleMouseLeave);
+      };
     },
     {
-      scope: heroRightElements,
+      scope: heroRef,
+      dependencies: [isLoaded],
+      revertOnUpdate: true,
     },
   );
 
   return (
-    <div className="relative isolate -mt-[var(--site-header-height)] overflow-hidden bg-[radial-gradient(ellipse_at_75%_55%,rgba(41,115,151,0.38),transparent_34%),radial-gradient(ellipse_at_8%_100%,rgba(42,157,147,0.18),transparent_38%),linear-gradient(118deg,#123e50_0%,#154c65_49%,#1a4276_100%)] pt-[var(--site-header-height)] pb-12 text-white">
+    <div
+      ref={heroRef}
+      className="relative isolate -mt-[var(--site-header-height)] overflow-hidden bg-[radial-gradient(ellipse_at_75%_55%,rgba(41,115,151,0.38),transparent_34%),radial-gradient(ellipse_at_8%_100%,rgba(42,157,147,0.18),transparent_38%),linear-gradient(118deg,#123e50_0%,#154c65_49%,#1a4276_100%)] pt-[var(--site-header-height)] pb-12 text-white"
+    >
       <div className="pointer-events-none absolute -top-[310px] -right-[180px] -z-10 h-[680px] w-[680px] rounded-full border border-white/[0.08]" />
+
       <div className="pointer-events-none absolute -right-[180px] -bottom-[355px] -z-10 h-[720px] w-[720px] rounded-full border border-white/[0.07]" />
 
       <section
-        className="mx-auto grid min-h-[525px] w-[min(100%_-_40px,500px)] grid-cols-1 items-center gap-[18px] px-0 py-[42px] pb-11 min-[681px]:w-[min(100%_-_48px,760px)] min-[681px]:grid-cols-[minmax(0,1fr)_minmax(320px,0.9fr)] min-[681px]:gap-[25px] min-[681px]:py-[34px] min-[681px]:pb-[60px] min-[901px]:w-[min(1140px,calc(100%_-_64px))] min-[901px]:grid-cols-[minmax(0,0.94fr)_minmax(400px,1.06fr)] min-[901px]:gap-[52px]"
         id="menu"
+        className="mx-auto grid min-h-[525px] w-[min(100%_-_40px,500px)] grid-cols-1 items-center gap-[18px] px-0 py-[42px] pb-11 min-[681px]:w-[min(100%_-_48px,760px)] min-[681px]:grid-cols-[minmax(0,1fr)_minmax(320px,0.9fr)] min-[681px]:gap-[25px] min-[681px]:py-[34px] min-[681px]:pb-[60px] min-[901px]:w-[min(1140px,calc(100%_-_64px))] min-[901px]:grid-cols-[minmax(0,0.94fr)_minmax(400px,1.06fr)] min-[901px]:gap-[52px]"
       >
         <div
           ref={heroLeftElements}
@@ -76,7 +134,9 @@ function HeroSection() {
 
           <h1 className="m-0 max-w-[500px] text-[clamp(42px,11vw,58px)] leading-[1.08] font-medium tracking-[-2.5px] text-white min-[681px]:max-w-[570px] min-[681px]:text-[clamp(40px,6vw,56px)] min-[901px]:text-[clamp(42px,5.2vw,66px)] min-[901px]:tracking-[-3.3px]">
             {heading}{" "}
-            <span className="font-[650] text-[#8ce4ce]">{headingAccent}</span>
+            <span className="font-[650] text-[#8ce4ce]">
+              {headingAccent}
+            </span>
           </h1>
 
           <p className="mt-[17px] mb-0 max-w-[440px] text-[14px] leading-[1.8] text-[#c4d6dd] min-[681px]:mt-[23px] min-[681px]:text-[15px]">
@@ -88,7 +148,7 @@ function HeroSection() {
             className="mt-[23px] flex items-center gap-4 min-[681px]:mt-[31px] min-[681px]:gap-[23px] max-[380px]:items-start max-[380px]:flex-col max-[380px]:gap-3"
           >
             <a
-              className="inline-flex min-h-[45px] items-center justify-center gap-[10px] rounded-[7px] bg-[#49d4ad] px-[17px] text-xs font-[650] text-[#103d4c] shadow-[0_10px_24px_rgba(4,26,37,0.18)] transition-[transform,background-color,color] duration-150 hover:-translate-y-0.5 hover:bg-[#74e5c4] min-[681px]:min-h-12 min-[681px]:text-[13px]"
+              className="inline-flex min-h-[45px] items-center justify-center gap-[10px] rounded-[7px] bg-[#49d4ad] px-[17px] text-xs font-[650] text-[#103d4c] shadow-[0_10px_24px_rgba(4,26,37,0.18)] transition-[background-color,color] duration-150 hover:bg-[#74e5c4] min-[681px]:min-h-12 min-[681px]:text-[13px]"
               href={primaryAction.href}
             >
               {primaryAction.label}
@@ -96,7 +156,7 @@ function HeroSection() {
             </a>
 
             <a
-              className="inline-flex min-h-[45px] items-center justify-center gap-[10px] rounded-[7px] text-xs font-[650] text-[#e6f0f0] transition-[transform,background-color,color] duration-150 hover:-translate-y-0.5 hover:text-[#49d4ad] min-[681px]:min-h-12 min-[681px]:text-[13px]"
+              className="inline-flex min-h-[45px] items-center justify-center gap-[10px] rounded-[7px] text-xs font-[650] text-[#e6f0f0] transition-colors duration-150 hover:text-[#49d4ad] min-[681px]:min-h-12 min-[681px]:text-[13px]"
               href={secondaryAction.href}
             >
               <span className="grid h-[29px] w-[29px] place-items-center rounded-full border border-white/[0.48]">
