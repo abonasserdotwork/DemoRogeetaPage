@@ -24,8 +24,8 @@ function AppointmentsSection() {
       email: formData.get("email"),
     };
     const message = [
-      "Hello, I would like to request an appointment.",
-      "",
+      "Hello 👋, I would like to request an appointment.",
+      "================",
       `Name: ${details.name}`,
       `Age: ${details.age}`,
       `Gender: ${details.gender}`,

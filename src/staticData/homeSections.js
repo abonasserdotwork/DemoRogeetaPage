@@ -22,7 +22,7 @@ export const heroSectionData = {
     detail: "A personal approach to your health",
   },
   image: {
-    src: "/assets/doctor.jpg",
+    src: "/assets/doctor.png",
     alt: "Doctor smiling in her white coat",
     label: "Doctor ready to help",
   },
@@ -203,8 +203,8 @@ export const appointmentSectionData = {
     email: "Email address",
     submit: "Continue to WhatsApp",
   },
-  genderOptions: ["Female", "Male", "Non-binary", "Prefer not to say"],
-  whatsappNumber: "+20-10-6928-8988",
+  genderOptions: ["Female", "Male"],
+  whatsappNumber: "+20-10-1111-1111",
   privacyNotice:
     "Your details will be added to a WhatsApp message addressed to the clinic. Nothing is sent until you review and press Send in WhatsApp.",
   availabilityNote: "I’ll reply to confirm availability and next steps.",
@@ -215,8 +215,8 @@ export const contactSectionData = {
   title: "Let’s talk about your care",
   description:
     "Have a question before booking? Get in touch and I’ll be happy to help.",
-  phone: "+20-10-6928-8988",
+  phone: "+20-10-1111-1111",
   email: "doctor@doctor.com",
-  whatsappNumber: "+20-10-6928-8988",
+  whatsappNumber: "+20-10-1111-1111",
   whatsappLabel: "Message me on WhatsApp",
 };

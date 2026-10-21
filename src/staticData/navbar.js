@@ -3,7 +3,7 @@ export const logoSrc = "/assets/logo.png";
 export const socials = [
   {
     icon: "phone",
-    content: "+20-10-6928-8988",
+    content: "+20-10-1111-1111",
   },
   {
     icon: "email",
