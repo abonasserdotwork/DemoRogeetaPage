@@ -15,6 +15,7 @@ A modern, responsive landing page for **Rogeeta Clinic**, designed to introduce 
 
 - React
 - Vite
+- GSAP
 - JavaScript
 - CSS
 - WhatsApp Click-to-Chat integration
