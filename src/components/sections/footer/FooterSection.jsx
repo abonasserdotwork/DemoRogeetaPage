@@ -7,7 +7,7 @@ function FooterSection() {
   const email = socials.find(({ icon }) => icon === "email");
 
   return (
-    <footer className="relative overflow-hidden rounded-b-[17px] bg-[radial-gradient(ellipse_at_8%_0%,rgba(36,91,112,0.22),transparent_38%),linear-gradient(115deg,#041323,#071b2d_58%,#061525)] text-[#bdcbd4] min-[601px]:rounded-b-[24px]">
+    <footer className="relative overflow-hidden  bg-[radial-gradient(ellipse_at_8%_0%,rgba(36,91,112,0.22),transparent_38%),linear-gradient(115deg,#041323,#071b2d_58%,#061525)] text-[#bdcbd4] ">
       <div className="mx-auto w-[calc(100%_-_40px)] min-[601px]:w-[min(100%_-_48px,760px)] min-[901px]:w-[min(1140px,calc(100%_-_64px))]">
         <div className="grid grid-cols-1 gap-x-5 gap-y-8 py-[39px] pb-[29px] min-[351px]:grid-cols-[repeat(2,minmax(0,1fr))] min-[601px]:grid-cols-[minmax(220px,1.4fr)_repeat(2,minmax(130px,1fr))] min-[601px]:gap-8 min-[601px]:py-[54px] min-[601px]:pb-[39px] min-[901px]:grid-cols-[minmax(230px,1.6fr)_repeat(3,minmax(130px,1fr))] min-[901px]:gap-[42px]">
           <div className="col-span-full max-w-[275px] min-[601px]:col-span-1">
